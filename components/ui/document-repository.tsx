@@ -146,7 +146,7 @@ const notifications = [
 
 export default function DocumentRepository() {
 	const [searchTerm, setSearchTerm] = useState('');
-	const [categoryFilter, setCategoryFilter] = useState('');
+	const [categoryFilter, setCategoryFilter] = useState('Todas');
 	const [isNewDocumentDialogOpen, setIsNewDocumentDialogOpen] =
 		useState(false);
 	const [isChatbotOpen, setIsChatbotOpen] = useState(false);
