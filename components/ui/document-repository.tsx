@@ -60,6 +60,7 @@ import {
 } from 'lucide-react';
 
 import ReactMarkdown from 'react-markdown';
+import Link from 'next/link';
 
 // Document templates and samples
 const documentTemplates = {
@@ -312,7 +313,7 @@ const initialDocuments = [
 	{
 		id: 1,
 		name: 'Política de Calidad',
-		category: 'Políticas',
+		category: 'Politicas',
 		status: 'high',
 		lastUpdated: '2023-10-15',
 		employee: {
@@ -971,16 +972,18 @@ export default function EnhancedDocumentRepository() {
 										</div>
 									</TableCell>
 									<TableCell>
-										<Button
-											variant='outline'
-											size='sm'
-											onClick={() =>
-												handleViewDocument(doc)
-											}
+										<Link
+											href={`/${doc.category.toLocaleLowerCase()}`}
+											className='flex items-center w-fit p-2 rounded-sm shadow-sm bg-slate-100'
+											// variant='outline'
+											// size='sm'
+											// onClick={() =>
+											// 	handleViewDocument(doc)
+											// }
 										>
 											<FileText className='w-4 h-4 mr-2' />
 											Ver
-										</Button>
+										</Link>
 									</TableCell>
 								</TableRow>
 							))}
