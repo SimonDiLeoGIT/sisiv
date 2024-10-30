@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { InfoIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import { initialDocuments } from '../../assets/initialDocuments';
 import { ProcedureType } from '@/app/interfaces/documentType';
@@ -45,9 +45,8 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 	
 	const router = useRouter();
 
-	function handleSubmit(e: React.FormEvent<HTMLFormcdElement>) {
-		e.preventDefault();
-		router.push('/');
+	function handleSubmit() {
+		router.replace('/');
 	}
 
 	return (
@@ -158,7 +157,7 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
 						Cancelar
 					</Link>
-					<Button onClick={() => handleSubmit}>Guardar Documento</Button>
+					<Button onClick={() => handleSubmit()}>Guardar Documento</Button>
 				</div>
 			</CardContent>
 		</Card>

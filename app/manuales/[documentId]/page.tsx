@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import {
 	Card,
@@ -6,22 +8,44 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { InfoIcon } from 'lucide-react';
 import Link from 'next/link';
-
-interface ManualDeCalidadTemplateProps {
-	onCancel: () => void;
-	onSave: () => void;
-}
+import { initialDocuments } from '@/app/assets/initialDocuments';
+import { useRouter } from 'next/navigation';
+import { ManualType } from '@/app/interfaces/documentType';
 
 export default function ManualDeCalidadTemplate({
-	onCancel,
-	onSave,
-}: ManualDeCalidadTemplateProps) {
+	params
+}: {
+	params: {documentId: string},
+}) {
+
+	const [doc, setDoc] = React.useState<ManualType | undefined>(
+    initialDocuments.find((document) => document.id === parseInt(params.documentId))
+  );
+
+	function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    if (!doc) return; // Exit early if doc is undefined
+
+    // Create a new content object by updating the specific field
+    const updatedContent = {
+      ...doc.content,
+      [e.target.id]: e.target.value,
+    };
+
+    // Use a functional update to set the document state
+    setDoc((prevDoc) => prevDoc ? { ...prevDoc, content: updatedContent } : undefined);
+  }
+	
+	const router = useRouter(); 	
+
+	function handleSubmit() {
+		router.replace('/');
+	}
+
 	return (
 		<Card className='w-full max-w-4xl mx-auto my-4'>
 			<CardHeader>
@@ -34,9 +58,11 @@ export default function ManualDeCalidadTemplate({
 			<CardContent className='space-y-6'>
 				<div>
 					<Label htmlFor='nombre-empresa'>Nombre de la Empresa</Label>
-					<Input
+					<Textarea
 						id='nombre-empresa'
-						placeholder='Ingrese el nombre de su empresa'
+						placeholder='Ingrese el nombre de su empresa...'
+						value={doc?.content['nombre-empresa'] || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
@@ -47,6 +73,8 @@ export default function ManualDeCalidadTemplate({
 					<Textarea
 						id='alcance'
 						placeholder='Defina el alcance de su Sistema de Gestión de Calidad...'
+						value={doc?.content['alcance'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -62,6 +90,8 @@ export default function ManualDeCalidadTemplate({
 					<Textarea
 						id='politica-calidad'
 						placeholder='Incluya la política de calidad de su organización...'
+						value={doc?.content['politica-calidad'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -77,6 +107,8 @@ export default function ManualDeCalidadTemplate({
 					<Textarea
 						id='objetivos-calidad'
 						placeholder='Liste los objetivos de calidad de su organización...'
+						value={doc?.content['objetivos-calidad'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -92,6 +124,8 @@ export default function ManualDeCalidadTemplate({
 					<Textarea
 						id='estructura-organizacional'
 						placeholder='Describa la estructura organizacional relevante para el SGC...'
+						value={doc?.content['estructura-organizacional'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -104,6 +138,8 @@ export default function ManualDeCalidadTemplate({
 					<Textarea
 						id='procesos'
 						placeholder='Enumere y describa brevemente los procesos clave del SGC...'
+						value={doc?.content['procesos'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -116,6 +152,8 @@ export default function ManualDeCalidadTemplate({
 					<Textarea
 						id='documentacion'
 						placeholder='Liste los principales documentos y registros del SGC...'
+						value={doc?.content['documentacion'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -129,6 +167,8 @@ export default function ManualDeCalidadTemplate({
 					<Textarea
 						id='mejora-continua'
 						placeholder='Describa el enfoque de la organización hacia la mejora continua...'
+						value={doc?.content['mejora-continua'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -141,7 +181,7 @@ export default function ManualDeCalidadTemplate({
 					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
 						Cancelar
 					</Link>
-					<Button onClick={onSave}>Guardar Manual</Button>
+					<Button onClick={handleSubmit}>Guardar Manual</Button>
 				</div>
 			</CardContent>
 		</Card>

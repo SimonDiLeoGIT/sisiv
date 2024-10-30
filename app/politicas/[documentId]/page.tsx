@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import {
 	Card,
@@ -11,16 +13,39 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { InfoIcon } from 'lucide-react';
 import Link from 'next/link';
-
-interface PoliticaDeCalidadTemplateProps {
-	onCancel: () => void;
-	onSave: () => void;
-}
+import { useRouter } from 'next/navigation';
+import { PolitciesType } from '@/app/interfaces/documentType';
+import { initialDocuments } from '@/app/assets/initialDocuments';
 
 export default function PoliticaDeCalidadTemplate({
-	onCancel,
-	onSave,
-}: PoliticaDeCalidadTemplateProps) {
+	params
+}: {
+	params: {documentId: string},
+}) {
+
+	const [doc, setDoc] = React.useState<PolitciesType | undefined>(
+    initialDocuments.find((document) => document.id === parseInt(params.documentId))
+  );
+
+	function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    if (!doc) return; // Exit early if doc is undefined
+
+    // Create a new content object by updating the specific field
+    const updatedContent = {
+      ...doc.content,
+      [e.target.id]: e.target.value,
+    };
+
+    // Use a functional update to set the document state
+    setDoc((prevDoc) => prevDoc ? { ...prevDoc, content: updatedContent } : undefined);
+  }
+	
+	const router = useRouter(); 	
+
+	function handleSubmit() {
+		router.replace('/');
+	}
+
 	return (
 		<Card className='w-full max-w-4xl mx-auto my-4'>
 			<CardHeader>
@@ -32,12 +57,14 @@ export default function PoliticaDeCalidadTemplate({
 			</CardHeader>
 			<CardContent className='space-y-6'>
 				<div>
-					<Label htmlFor='compromiso'>
+					<Label htmlFor='Compromiso'>
 						Compromiso con la Calidad
 					</Label>
 					<Textarea
-						id='compromiso'
+						id='Compromiso'
 						placeholder='Describa el compromiso de la organización con la calidad...'
+						value={doc?.content?.Compromiso || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -47,10 +74,12 @@ export default function PoliticaDeCalidadTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='objetivos'>Objetivos Principales</Label>
+					<Label htmlFor='Objetivo'>Objetivos Principales</Label>
 					<Textarea
-						id='objetivos'
+						id='Objetivo'
 						placeholder='Enumere los objetivos principales de calidad...'
+						value={doc?.content?.Objetivo || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -64,6 +93,8 @@ export default function PoliticaDeCalidadTemplate({
 					<Textarea
 						id='mejora-continua'
 						placeholder='Describa el enfoque de la organización hacia la mejora continua...'
+						value={doc?.content?.['mejora-continua'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -79,6 +110,8 @@ export default function PoliticaDeCalidadTemplate({
 					<Textarea
 						id='satisfaccion-cliente'
 						placeholder='Detalle el compromiso con la satisfacción del cliente...'
+						value={doc?.content?.['satisfaccion-cliente'] || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -94,6 +127,8 @@ export default function PoliticaDeCalidadTemplate({
 					<Textarea
 						id='cumplimiento'
 						placeholder='Indique el compromiso con el cumplimiento de requisitos...'
+						value={doc?.content?.cumplimiento || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -106,7 +141,7 @@ export default function PoliticaDeCalidadTemplate({
 					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
 						Cancelar
 					</Link>
-					<Button onClick={onSave}>Guardar Documento</Button>
+					<Button onClick={handleSubmit}>Guardar Documento</Button>
 				</div>
 			</CardContent>
 		</Card>

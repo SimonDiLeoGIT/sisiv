@@ -2,7 +2,7 @@ export const initialDocuments = [
   {
     id: 1,
     name: "Política de Calidad",
-    category: "Políticas",
+    category: "Politicas",
     status: "high",
     lastUpdated: "2023-10-15",
     employee: {
@@ -11,17 +11,12 @@ export const initialDocuments = [
       points: 5,
     },
     content: {
-      Objetivo:
-        "Establecer un marco para la gestión de la calidad dentro de la organización.",
-      Alcance:
-        "Aplicable a todas las áreas de la organización que impactan en la calidad.",
-      Responsabilidades:
-        "Todos los empleados deben cumplir con la política de calidad.",
-      Procedimiento:
-        "Se implementarán prácticas consistentes de evaluación y mejora de calidad.",
-      Revisión:
-        "Esta política se revisará anualmente para asegurar su vigencia.",
-    },
+      "Compromiso": "La alta dirección se compromete a promover una cultura de calidad en toda la organización.",
+      "Objetivo": "Establecer un marco para la gestión de la calidad dentro de la organización.",
+      "mejora-continua": "La organización se compromete a mejorar continuamente sus procesos y servicios.",
+      "satisfaccion-cliente": "Nos enfocamos en cumplir y superar las expectativas del cliente.",
+      "cumplimiento": "Cumpliremos con los requisitos legales, reglamentarios y del cliente."
+  },
   },
   {
     id: 2,
@@ -55,36 +50,38 @@ export const initialDocuments = [
       points: 1,
     },
     content: {
-      Objetivo: null,
-      Alcance: null,
-      Responsabilidad: null,
-      Requisitos_de_Documentación: null,
-      Retención_y_Eliminación: null,
-    },
+      "id_no_conformidad": null,
+      "fecha_deteccion": null,
+      "descripcion": null,
+      "area_proceso": null,
+      "causa_raiz": null,
+      "accion_correctiva": null,
+      "responsable": null,
+      "fecha_implementacion": null,
+      "seguimiento": null
+  }
   },
   {
-    id: 4,
-    name: "Manual de Calidad",
-    category: "Manuales",
-    status: "high",
-    lastUpdated: "2023-08-30",
-    employee: {
-      name: "Juan Martínez",
-      avatar: "/placeholder.svg?height=32&width=32",
-      points: 5,
+    "id": 4,
+    "name": "Manual de Calidad",
+    "category": "Manuales",
+    "status": "high",
+    "lastUpdated": "2023-08-30",
+    "employee": {
+      "name": "Juan Martínez",
+      "avatar": "/placeholder.svg?height=32&width=32",
+      "points": 5
     },
-    content: {
-      Introducción:
-        "Este manual define los lineamientos de calidad para todos los procesos.",
-      Alcance: "Aplica a todos los procesos operativos dentro de la empresa.",
-      Responsabilidades:
-        "La alta dirección es responsable de supervisar el cumplimiento de este manual.",
-      Descripción_de_Procesos:
-        "Incluye descripciones detalladas de cada proceso crítico de calidad.",
-      Documentación_y_Registros:
-        "Los registros deben completarse para evidenciar cumplimiento de calidad.",
-      Revisión: "El manual se revisa cada dos años.",
-    },
+    "content": {
+      "nombre-empresa": null,
+      "alcance": "Aplica a todos los procesos operativos dentro de la empresa.",
+      "politica-calidad": "Este manual define los lineamientos de calidad para todos los procesos.",
+      "objetivos-calidad": null,
+      "estructura-organizacional": "La alta dirección es responsable de supervisar el cumplimiento de este manual.",
+      "procesos": "Incluye descripciones detalladas de cada proceso crítico de calidad.",
+      "documentacion": "Los registros deben completarse para evidenciar cumplimiento de calidad.",
+      "mejora-continua": "El manual se revisa cada dos años."
+    }
   },
   {
     id: 5,
@@ -98,14 +95,20 @@ export const initialDocuments = [
       points: 3,
     },
     content: {
-      Declaración_de_Objetivo:
-        "Aumentar la satisfacción del cliente en un 10% anual.",
-      Alcance: "Aplica al departamento de atención al cliente.",
-      Indicadores_Clave_de_Desempeño: null,
-      Responsabilidades:
-        "El departamento de calidad supervisará el progreso de los objetivos.",
-      Revisión_y_Evaluación: null,
-    },
+      periodo: "2024",
+      objetivo1: "Lograr un crecimiento anual del 15% en eficiencia operativa.",
+      indicador1: "Productividad, reducción de costos, satisfacción del cliente.",
+      meta1: "Mejorar en un 15% la eficiencia operativa",
+      objetivo2: null,
+      indicador2: null,
+      meta2: null,
+      objetivo3: null,
+      indicador3: null,
+      meta3: null,
+      recursos: "Recursos de operaciones para el crecimiento en eficiencia.",
+      responsables: "El equipo de operaciones monitorizará el progreso.",
+      revision: "Trimestral"
+    }
   },
   {
     id: 6,
@@ -139,18 +142,21 @@ export const initialDocuments = [
       points: 2,
     },
     content: {
-      Objetivo: "Mantener un registro de todas las capacitaciones realizadas.",
-      Alcance: null,
-      Responsabilidad:
-        "El departamento de RRHH mantiene y actualiza el registro.",
-      Requisitos_de_Documentación: null,
-      Retención_y_Eliminación: null,
+        "id_no_conformidad": null,
+        "fecha_deteccion": null,
+        "descripcion": null,
+        "area_proceso": null,
+        "causa_raiz": null,
+        "accion_correctiva": null,
+        "responsable": null,
+        "fecha_implementacion": null,
+        "seguimiento": null
     },
   },
   {
     id: 8,
     name: "Política de Seguridad de la Información",
-    category: "Políticas",
+    category: "Politicas",
     status: "low",
     lastUpdated: "2023-11-20",
     employee: {
@@ -159,34 +165,34 @@ export const initialDocuments = [
       points: 1,
     },
     content: {
-      Objetivo: null,
-      Alcance: null,
-      Responsabilidades: null,
-      Procedimiento: null,
-      Revisión: null,
-    },
+      "Compromiso": null,
+      "Objetivo": null,
+      "mejora-continua": null,
+      "satisfaccion-cliente": null,
+      "cumplimiento": null
+  },
   },
   {
-    id: 9,
-    name: "Manual de Procedimientos Operativos",
-    category: "Manuales",
-    status: "medium",
-    lastUpdated: "2023-11-25",
-    employee: {
-      name: "Carmen Vega",
-      avatar: "/placeholder.svg?height=32&width=32",
-      points: 3,
+    "id": 9,
+    "name": "Manual de Procedimientos Operativos",
+    "category": "Manuales",
+    "status": "medium",
+    "lastUpdated": "2023-11-25",
+    "employee": {
+      "name": "Carmen Vega",
+      "avatar": "/placeholder.svg?height=32&width=32",
+      "points": 3
     },
-    content: {
-      Introducción:
-        "Manual para describir los procedimientos operativos clave.",
-      Alcance: null,
-      Responsabilidades:
-        "Cada gerente de área debe asegurarse de la implementación de los procedimientos.",
-      Descripción_de_Procesos: null,
-      Documentación_y_Registros: null,
-      Revisión: null,
-    },
+    "content": {
+      "nombre-empresa": null,
+      "alcance": null,
+      "politica-calidad": "Manual para describir los procedimientos operativos clave.",
+      "objetivos-calidad": null,
+      "estructura-organizacional": "Cada gerente de área debe asegurarse de la implementación de los procedimientos.",
+      "procesos": null,
+      "documentacion": null,
+      "mejora-continua": null
+    }
   },
   {
     id: 10,
@@ -200,15 +206,20 @@ export const initialDocuments = [
       points: 5,
     },
     content: {
-      Declaración_de_Objetivo:
-        "Lograr un crecimiento anual del 15% en eficiencia operativa.",
-      Alcance: "Abarca todas las operaciones de producción.",
-      Indicadores_Clave_de_Desempeño:
-        "Productividad, reducción de costos, satisfacción del cliente.",
-      Responsabilidades: "El equipo de operaciones monitorizará el progreso.",
-      Revisión_y_Evaluación:
-        "Trimestralmente se evalúa el avance y se ajustan los planes.",
-    },
+      "periodo": "2023",
+      "objetivo1": "Aumentar la satisfacción del cliente en un 10% anual.",
+      "indicador1": "Porcentaje de satisfacción del cliente",
+      "meta1": "Alcanzar un 95% de satisfacción del cliente",
+      "objetivo2": null,
+      "indicador2": null,
+      "meta2": null,
+      "objetivo3": null,
+      "indicador3": null,
+      "meta3": null,
+      "recursos": "Recursos necesarios para cumplir con la satisfacción del cliente.",
+      "responsables": "El departamento de calidad supervisará el progreso de los objetivos.",
+      "revision": "N/A"
+    }
   },
   {
     id: 11,
@@ -243,11 +254,15 @@ export const initialDocuments = [
       points: 2,
     },
     content: {
-      Objetivo: null,
-      Alcance: null,
-      Responsabilidad: null,
-      Requisitos_de_Documentación: null,
-      Retención_y_Eliminación: null,
+      "id_no_conformidad": null,
+      "fecha_deteccion": null,
+      "descripcion": null,
+      "area_proceso": null,
+      "causa_raiz": null,
+      "accion_correctiva": null,
+      "responsable": null,
+      "fecha_implementacion": null,
+      "seguimiento": null
     },
   },
 ]
