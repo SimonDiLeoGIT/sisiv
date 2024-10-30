@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { InfoIcon } from 'lucide-react';
+import Link from 'next/link';
 
 interface RegistroNoConformidadesTemplateProps {
 	onCancel: () => void;
@@ -130,9 +131,9 @@ export default function RegistroNoConformidadesTemplate({
 				</div>
 
 				<div className='flex justify-end space-x-2 mt-6'>
-					<Button variant='outline' onClick={onCancel}>
+					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
 						Cancelar
-					</Button>
+					</Link>
 					<Button onClick={onSave}>Guardar Registro</Button>
 				</div>
 			</CardContent>

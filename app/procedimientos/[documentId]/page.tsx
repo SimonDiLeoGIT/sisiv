@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import {
 	Card,
@@ -10,16 +12,44 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { InfoIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-interface ProcedimientoAuditoriaInternaTemplateProps {
-	onCancel: () => void;
-	onSave: () => void;
-}
+import { initialDocuments } from '../../assets/initialDocuments';
+import { ProcedureType } from '@/app/interfaces/documentType';
+
+// This could be a state in a higher-level component or a context
 
 export default function ProcedimientoAuditoriaInternaTemplate({
-	onCancel,
-	onSave,
-}: ProcedimientoAuditoriaInternaTemplateProps) {
+	params
+}: {
+	params: {documentId: string},
+}) {
+
+	const [doc, setDoc] = React.useState<ProcedureType | undefined>(
+    initialDocuments.find((document) => document.id === parseInt(params.documentId))
+  );
+  
+	function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    if (!doc) return; // Exit early if doc is undefined
+
+    // Create a new content object by updating the specific field
+    const updatedContent = {
+      ...doc.content,
+      [e.target.id]: e.target.value,
+    };
+
+    // Use a functional update to set the document state
+    setDoc((prevDoc) => prevDoc ? { ...prevDoc, content: updatedContent } : undefined);
+  }
+	
+	const router = useRouter();
+
+	function handleSubmit(e: React.FormEvent<HTMLFormcdElement>) {
+		e.preventDefault();
+		router.push('/');
+	}
+
 	return (
 		<Card className='w-full max-w-4xl mx-auto my-4'>
 			<CardHeader>
@@ -33,10 +63,12 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 			</CardHeader>
 			<CardContent className='space-y-6'>
 				<div>
-					<Label htmlFor='objetivo'>Objetivo y Alcance</Label>
+					<Label htmlFor='Objetivo_y_Alcance'>Objetivo y Alcance</Label>
 					<Textarea
-						id='objetivo'
+						id='Objetivo_y_Alcance'
 						placeholder='Defina el objetivo y alcance del procedimiento de auditoría interna...'
+						value={doc?.content.Objetivo_y_Alcance || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -46,10 +78,12 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='responsabilidades'>Responsabilidades</Label>
+					<Label htmlFor='Responsabilidades'>Responsabilidades</Label>
 					<Textarea
-						id='responsabilidades'
+						id='Responsabilidades'
 						placeholder='Detalle las responsabilidades de los involucrados en el proceso de auditoría...'
+						value={doc?.content.Responsabilidades || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -59,12 +93,14 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='planificacion'>
+					<Label htmlFor='Planificación_de_Auditorías'>
 						Planificación de Auditorías
 					</Label>
 					<Textarea
-						id='planificacion'
+						id='Planificación_de_Auditorías'
 						placeholder='Describa cómo se planifican las auditorías internas...'
+						value={doc?.content.Planificación_de_Auditorías || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -74,10 +110,12 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='ejecucion'>Ejecución de la Auditoría</Label>
+					<Label htmlFor='Ejecución_de_la_Auditoría'>Ejecución de la Auditoría</Label>
 					<Textarea
-						id='ejecucion'
+						id='Ejecución_de_la_Auditoría'
 						placeholder='Detalle los pasos para realizar la auditoría...'
+						value={doc?.content?.Ejecución_de_la_Auditoría || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -87,10 +125,12 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='informe'>Informe de Auditoría</Label>
+					<Label htmlFor='Informe_de_Auditoría'>Informe de Auditoría</Label>
 					<Textarea
-						id='informe'
+						id='Informe_de_Auditoría'
 						placeholder='Describa el proceso de elaboración y contenido del informe de auditoría...'
+						value={doc?.content?.Informe_de_Auditoría || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -100,10 +140,12 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='seguimiento'>Seguimiento y Cierre</Label>
+					<Label htmlFor='Seguimiento_y_Cierre'>Seguimiento y Cierre</Label>
 					<Textarea
-						id='seguimiento'
+						id='Seguimiento_y_Cierre'
 						placeholder='Explique cómo se realiza el seguimiento de las acciones correctivas...'
+						value={doc?.content?.Seguimiento_y_Cierre || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -113,10 +155,10 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div className='flex justify-end space-x-2 mt-6'>
-					<Button variant='outline' onClick={onCancel}>
+					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
 						Cancelar
-					</Button>
-					<Button onClick={onSave}>Guardar Documento</Button>
+					</Link>
+					<Button onClick={() => handleSubmit}>Guardar Documento</Button>
 				</div>
 			</CardContent>
 		</Card>
