@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import {
@@ -16,31 +16,54 @@ import Link from 'next/link';
 import { initialDocuments } from '@/app/assets/initialDocuments';
 import { GoalsType } from '@/app/interfaces/documentType';
 import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
 
 export default function ObjetivosDeCalidadTemplate({
-	params
+	params,
 }: {
-	params: {documentId: string},
+	params: { documentId: string };
 }) {
-
 	const [doc, setDoc] = React.useState<GoalsType | undefined>(
-    initialDocuments.find((document) => document.id === parseInt(params.documentId))
-  );
+		initialDocuments.find(
+			(document) => document.id === parseInt(params.documentId)
+		)
+	);
+
+	// Calculate the percentage of fields filled
+	const calculatePercentageFilled = () => {
+		if (!doc) return 0;
+		const totalFields = Object.keys(doc.content).length;
+		const filledFields = Object.values(doc.content).filter(
+			(value) => value.trim() !== ''
+		).length;
+		return Math.round((filledFields / totalFields) * 100);
+	};
+
+	const percentageFilled = calculatePercentageFilled();
+
+	// Determine badge color based on percentage
+	const getBadgeColor = (percentage: number) => {
+		if (percentage === 100) return 'bg-green-500';
+		if (percentage >= 50) return 'bg-yellow-500';
+		return 'bg-red-500';
+	};
 
 	function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (!doc) return; // Exit early if doc is undefined
+		if (!doc) return; // Exit early if doc is undefined
 
-    // Create a new content object by updating the specific field
-    const updatedContent = {
-      ...doc.content,
-      [e.target.id]: e.target.value,
-    };
+		// Create a new content object by updating the specific field
+		const updatedContent = {
+			...doc.content,
+			[e.target.id]: e.target.value,
+		};
 
-    // Use a functional update to set the document state
-    setDoc((prevDoc) => prevDoc ? { ...prevDoc, content: updatedContent } : undefined);
-  }
-	
-	const router = useRouter(); 	
+		// Use a functional update to set the document state
+		setDoc((prevDoc) =>
+			prevDoc ? { ...prevDoc, content: updatedContent } : undefined
+		);
+	}
+
+	const router = useRouter();
 
 	function handleSubmit() {
 		router.replace('/');
@@ -49,7 +72,16 @@ export default function ObjetivosDeCalidadTemplate({
 	return (
 		<Card className='w-full max-w-4xl mx-auto my-4'>
 			<CardHeader>
-				<CardTitle>Plantilla de Objetivos de Calidad</CardTitle>
+				<div className='flex justify-between items-center'>
+					<CardTitle>Plantilla de Objetivos de Calidad</CardTitle>
+					<Badge
+						className={`${getBadgeColor(
+							percentageFilled
+						)} text-white`}
+					>
+						{percentageFilled}% Completado
+					</Badge>
+				</div>
 				<CardDescription>
 					Complete las siguientes secciones para definir los Objetivos
 					de Calidad de su organización
@@ -58,7 +90,12 @@ export default function ObjetivosDeCalidadTemplate({
 			<CardContent className='space-y-6'>
 				<div>
 					<Label htmlFor='periodo'>Período</Label>
-					<Textarea id='periodo' placeholder='Ej: Año 2023' value={doc?.content.periodo || ''} onChange={handleInputChange}/>
+					<Textarea
+						id='periodo'
+						placeholder='Ej: Año 2023'
+						value={doc?.content.periodo || ''}
+						onChange={handleInputChange}
+					/>
 				</div>
 
 				<div>
@@ -66,7 +103,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='objetivo1'
 						placeholder='Describa el primer objetivo de calidad...'
-						value={doc?.content.objetivo1 || ''} onChange={handleInputChange}
+						value={doc?.content.objetivo1 || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -82,7 +120,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='indicador1'
 						placeholder='Ej: Porcentaje de satisfacción del cliente'
-						value={doc?.content.indicador1 || ''} onChange={handleInputChange}
+						value={doc?.content.indicador1 || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
@@ -91,7 +130,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='meta1'
 						placeholder='Ej: Alcanzar un 95% de satisfacción del cliente'
-						value={doc?.content.meta1 || ''} onChange={handleInputChange}
+						value={doc?.content.meta1 || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
@@ -100,7 +140,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='objetivo2'
 						placeholder='Describa el segundo objetivo de calidad...'
-						value={doc?.content.objetivo2 || ''} onChange={handleInputChange}
+						value={doc?.content.objetivo2 || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -116,7 +157,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='indicador2'
 						placeholder='Ej: Tiempo de entrega promedio'
-						value={doc?.content.indicador2 || ''} onChange={handleInputChange}
+						value={doc?.content.indicador2 || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
@@ -125,7 +167,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='meta2'
 						placeholder='Ej: Reducir el tiempo de entrega promedio a 3 días'
-						value={doc?.content.meta2 || ''} onChange={handleInputChange}
+						value={doc?.content.meta2 || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
@@ -134,7 +177,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='objetivo3'
 						placeholder='Describa el tercer objetivo de calidad...'
-						value={doc?.content.objetivo3 || ''} onChange={handleInputChange}
+						value={doc?.content.objetivo3 || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -150,7 +194,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='indicador3'
 						placeholder='Ej: Número de no conformidades por mes'
-						value={doc?.content.indicador3 || ''} onChange={handleInputChange}
+						value={doc?.content.indicador3 || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
@@ -159,7 +204,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='meta3'
 						placeholder='Ej: Reducir las no conformidades en un 20% respecto al año anterior'
-						value={doc?.content.meta3 || ''} onChange={handleInputChange}
+						value={doc?.content.meta3 || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
@@ -168,7 +214,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='recursos'
 						placeholder='Describa los recursos necesarios para alcanzar estos objetivos...'
-						value={doc?.content.recursos || ''} onChange={handleInputChange}
+						value={doc?.content.recursos || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -182,7 +229,8 @@ export default function ObjetivosDeCalidadTemplate({
 					<Textarea
 						id='responsables'
 						placeholder='Indique los responsables de cada objetivo...'
-						value={doc?.content.responsables || ''} onChange={handleInputChange}
+						value={doc?.content.responsables || ''}
+						onChange={handleInputChange}
 					/>
 					<p className='text-sm text-muted-foreground mt-1 flex items-center'>
 						<InfoIcon className='w-4 h-4 mr-1' />
@@ -193,14 +241,19 @@ export default function ObjetivosDeCalidadTemplate({
 
 				<div>
 					<Label htmlFor='revision'>Frecuencia de Revisión</Label>
-					<Textarea 
-						id='revision' placeholder='Ej: Trimestral' 
-						value={doc?.content.revision || ''} onChange={handleInputChange}
+					<Textarea
+						id='revision'
+						placeholder='Ej: Trimestral'
+						value={doc?.content.revision || ''}
+						onChange={handleInputChange}
 					/>
 				</div>
 
 				<div className='flex justify-end space-x-2 mt-6'>
-					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
+					<Link
+						href={'/'}
+						className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'
+					>
 						Cancelar
 					</Link>
 					<Button onClick={handleSubmit}>Guardar Objetivos</Button>

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import {
@@ -17,44 +17,76 @@ import { useRouter } from 'next/navigation';
 
 import { initialDocuments } from '../../assets/initialDocuments';
 import { ProcedureType } from '@/app/interfaces/documentType';
+import { Badge } from '@/components/ui/badge';
 
 // This could be a state in a higher-level component or a context
 
 export default function ProcedimientoAuditoriaInternaTemplate({
-	params
+	params,
 }: {
-	params: {documentId: string},
+	params: { documentId: string };
 }) {
-
 	const [doc, setDoc] = React.useState<ProcedureType | undefined>(
-    initialDocuments.find((document) => document.id === parseInt(params.documentId))
-  );
-  
+		initialDocuments.find(
+			(document) => document.id === parseInt(params.documentId)
+		)
+	);
+
 	function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (!doc) return; // Exit early if doc is undefined
+		if (!doc) return; // Exit early if doc is undefined
 
-    // Create a new content object by updating the specific field
-    const updatedContent = {
-      ...doc.content,
-      [e.target.id]: e.target.value,
-    };
+		// Create a new content object by updating the specific field
+		const updatedContent = {
+			...doc.content,
+			[e.target.id]: e.target.value,
+		};
 
-    // Use a functional update to set the document state
-    setDoc((prevDoc) => prevDoc ? { ...prevDoc, content: updatedContent } : undefined);
-  }
-	
+		// Use a functional update to set the document state
+		setDoc((prevDoc) =>
+			prevDoc ? { ...prevDoc, content: updatedContent } : undefined
+		);
+	}
+
 	const router = useRouter();
 
 	function handleSubmit() {
 		router.replace('/');
 	}
 
+	// Calculate the percentage of fields filled
+	const calculatePercentageFilled = () => {
+		if (!doc) return 0;
+		const totalFields = Object.keys(doc.content).length;
+		const filledFields = Object.values(doc.content).filter(
+			(value) => value.trim() !== ''
+		).length;
+		return Math.round((filledFields / totalFields) * 100);
+	};
+
+	const percentageFilled = calculatePercentageFilled();
+
+	// Determine badge color based on percentage
+	const getBadgeColor = (percentage: number) => {
+		if (percentage === 100) return 'bg-green-500';
+		if (percentage >= 50) return 'bg-yellow-500';
+		return 'bg-red-500';
+	};
+
 	return (
 		<Card className='w-full max-w-4xl mx-auto my-4'>
 			<CardHeader>
-				<CardTitle>
-					Plantilla de Procedimiento de Auditoría Interna
-				</CardTitle>
+				<div className='flex justify-between items-center'>
+					<CardTitle>
+						Plantilla de Procedimiento de Auditoría Interna
+					</CardTitle>
+					<Badge
+						className={`${getBadgeColor(
+							percentageFilled
+						)} text-white`}
+					>
+						{percentageFilled}% Completado
+					</Badge>
+				</div>
 				<CardDescription>
 					Complete las siguientes secciones para crear su
 					Procedimiento de Auditoría Interna ISO 9001
@@ -62,7 +94,9 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 			</CardHeader>
 			<CardContent className='space-y-6'>
 				<div>
-					<Label htmlFor='Objetivo_y_Alcance'>Objetivo y Alcance</Label>
+					<Label htmlFor='Objetivo_y_Alcance'>
+						Objetivo y Alcance
+					</Label>
 					<Textarea
 						id='Objetivo_y_Alcance'
 						placeholder='Defina el objetivo y alcance del procedimiento de auditoría interna...'
@@ -109,7 +143,9 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='Ejecución_de_la_Auditoría'>Ejecución de la Auditoría</Label>
+					<Label htmlFor='Ejecución_de_la_Auditoría'>
+						Ejecución de la Auditoría
+					</Label>
 					<Textarea
 						id='Ejecución_de_la_Auditoría'
 						placeholder='Detalle los pasos para realizar la auditoría...'
@@ -124,7 +160,9 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='Informe_de_Auditoría'>Informe de Auditoría</Label>
+					<Label htmlFor='Informe_de_Auditoría'>
+						Informe de Auditoría
+					</Label>
 					<Textarea
 						id='Informe_de_Auditoría'
 						placeholder='Describa el proceso de elaboración y contenido del informe de auditoría...'
@@ -139,7 +177,9 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div>
-					<Label htmlFor='Seguimiento_y_Cierre'>Seguimiento y Cierre</Label>
+					<Label htmlFor='Seguimiento_y_Cierre'>
+						Seguimiento y Cierre
+					</Label>
 					<Textarea
 						id='Seguimiento_y_Cierre'
 						placeholder='Explique cómo se realiza el seguimiento de las acciones correctivas...'
@@ -154,10 +194,15 @@ export default function ProcedimientoAuditoriaInternaTemplate({
 				</div>
 
 				<div className='flex justify-end space-x-2 mt-6'>
-					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
+					<Link
+						href={'/'}
+						className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'
+					>
 						Cancelar
 					</Link>
-					<Button onClick={() => handleSubmit()}>Guardar Documento</Button>
+					<Button onClick={() => handleSubmit()}>
+						Guardar Documento
+					</Button>
 				</div>
 			</CardContent>
 		</Card>

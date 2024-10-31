@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import {
@@ -16,40 +16,72 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PolitciesType } from '@/app/interfaces/documentType';
 import { initialDocuments } from '@/app/assets/initialDocuments';
+import { Badge } from '@/components/ui/badge';
 
 export default function PoliticaDeCalidadTemplate({
-	params
+	params,
 }: {
-	params: {documentId: string},
+	params: { documentId: string };
 }) {
-
 	const [doc, setDoc] = React.useState<PolitciesType | undefined>(
-    initialDocuments.find((document) => document.id === parseInt(params.documentId))
-  );
+		initialDocuments.find(
+			(document) => document.id === parseInt(params.documentId)
+		)
+	);
 
 	function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (!doc) return; // Exit early if doc is undefined
+		if (!doc) return; // Exit early if doc is undefined
 
-    // Create a new content object by updating the specific field
-    const updatedContent = {
-      ...doc.content,
-      [e.target.id]: e.target.value,
-    };
+		// Create a new content object by updating the specific field
+		const updatedContent = {
+			...doc.content,
+			[e.target.id]: e.target.value,
+		};
 
-    // Use a functional update to set the document state
-    setDoc((prevDoc) => prevDoc ? { ...prevDoc, content: updatedContent } : undefined);
-  }
-	
-	const router = useRouter(); 	
+		// Use a functional update to set the document state
+		setDoc((prevDoc) =>
+			prevDoc ? { ...prevDoc, content: updatedContent } : undefined
+		);
+	}
+
+	const router = useRouter();
 
 	function handleSubmit() {
 		router.replace('/');
 	}
 
+	// Calculate the percentage of fields filled
+	const calculatePercentageFilled = () => {
+		if (!doc) return 0;
+		const totalFields = Object.keys(doc.content).length;
+		const filledFields = Object.values(doc.content).filter(
+			(value) => value.trim() !== ''
+		).length;
+		return Math.round((filledFields / totalFields) * 100);
+	};
+
+	const percentageFilled = calculatePercentageFilled();
+
+	// Determine badge color based on percentage
+	const getBadgeColor = (percentage: number) => {
+		if (percentage === 100) return 'bg-green-500';
+		if (percentage >= 50) return 'bg-yellow-500';
+		return 'bg-red-500';
+	};
+
 	return (
 		<Card className='w-full max-w-4xl mx-auto my-4'>
 			<CardHeader>
-				<CardTitle>Plantilla de Política de Calidad</CardTitle>
+				<div className='flex justify-between items-center'>
+					<CardTitle>Plantilla de Política de Calidad</CardTitle>
+					<Badge
+						className={`${getBadgeColor(
+							percentageFilled
+						)} text-white`}
+					>
+						{percentageFilled}% Completado
+					</Badge>
+				</div>
 				<CardDescription>
 					Complete las siguientes secciones para crear su Política de
 					Calidad ISO 9001
@@ -138,7 +170,10 @@ export default function PoliticaDeCalidadTemplate({
 				</div>
 
 				<div className='flex justify-end space-x-2 mt-6'>
-					<Link href={'/'} className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'>
+					<Link
+						href={'/'}
+						className='flex items-center justify-center p-2 border rounded-md hover:opacity-80'
+					>
 						Cancelar
 					</Link>
 					<Button onClick={handleSubmit}>Guardar Documento</Button>
