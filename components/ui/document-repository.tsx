@@ -57,6 +57,7 @@ import {
 	X,
 	Edit,
 	Eye,
+	Trophy,
 } from 'lucide-react';
 
 import ReactMarkdown from 'react-markdown';
@@ -64,7 +65,6 @@ import Link from 'next/link';
 
 // Initial documents data with more examples
 import { initialDocuments } from '../../app/assets/initialDocuments';
-
 
 const statusColors = {
 	high: 'bg-green-500',
@@ -255,6 +255,20 @@ export default function EnhancedDocumentRepository() {
 					Sistema de Gestión ISO 9001
 				</h1>
 				<div className='flex space-x-2'>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link href='/tablero'>
+									<Button variant='outline' size='icon'>
+										<Trophy className='h-4 w-4' />
+									</Button>
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Tablero de Puntuación</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 					<TooltipProvider>
 						<Tooltip>
 							<TooltipTrigger asChild>
@@ -583,7 +597,9 @@ export default function EnhancedDocumentRepository() {
 									</TableCell>
 									<TableCell>
 										<Link
-											href={`/${doc.category.toLocaleLowerCase()}/${doc.id}`}
+											href={`/${doc.category.toLocaleLowerCase()}/${
+												doc.id
+											}`}
 											className='flex items-center w-fit p-2 rounded-sm shadow-sm bg-slate-100'
 											// variant='outline'
 											// size='sm'
